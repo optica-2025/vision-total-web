@@ -61,6 +61,13 @@
             border-radius: 10px;
             font-size: 16px;
             text-align: center;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            autocomplete: off;
+            autocorrect: off;
+            autocapitalize: off;
+            spellcheck: false;
         }
 
         .login-input::placeholder {
@@ -365,9 +372,15 @@
 
             <div class="login-section">
                 <div class="login-title">🔐 Acceso Restringido</div>
-                <input type="text" id="username" class="login-input" placeholder="👤 Usuario: admin" value="">
-                <input type="password" id="password" class="login-input" placeholder="🔑 Contraseña: nvision2530" value="">
+                <input type="text" id="username" class="login-input" placeholder="👤 Usuario" value="" autocomplete="off" autocorrect="off" autocapitalize="off">
+                <input type="password" id="password" class="login-input" placeholder="🔑 Contraseña" value="" autocomplete="off" autocorrect="off" autocapitalize="off">
                 <button onclick="iniciarSesion()" class="login-btn">🚀 Acceder al Sistema</button>
+                
+                <div style="margin-top: 20px;">
+                    <button onclick="autoLogin()" style="background: #f59e0b; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-size: 14px; cursor: pointer; width: 100%; margin-bottom: 10px;">
+                        ⚡ Login Automático (Móvil)
+                    </button>
+                </div>
                 
                 <div style="margin-top: 20px; font-size: 12px; opacity: 0.8;">
                     🔒 Sistema protegido con autenticación<br>
@@ -539,39 +552,29 @@
         let isLoggedIn = false;
         let ultimaFactura = null;
 
+        function autoLogin() {
+            // Login directo para móvil
+            isLoggedIn = true;
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('ncfSystem').classList.remove('hidden');
+            document.getElementById('logoutBtn').style.display = 'block';
+            mostrarAlerta('📱 Acceso móvil autorizado automáticamente', 'success');
+            
+            setTimeout(() => {
+                configuracionDemo();
+            }, 500);
+        }
+
         function iniciarSesion() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            // DEBUG - Mostrar lo que se está comparando
-            console.log('Username ingresado:', '"' + username + '"');
-            console.log('Password ingresado:', '"' + password + '"');
-            console.log('Username esperado:', '"admin"');
-            console.log('Password esperado:', '"nvision2530"');
-            
-            // Credenciales correctas (sin trim para evitar problemas)
+            // Credenciales correctas (sin trim para móvil)
             if (username == 'admin' && password == 'nvision2530') {
-                isLoggedIn = true;
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('ncfSystem').classList.remove('hidden');
-                document.getElementById('logoutBtn').style.display = 'block';
-                mostrarAlerta('🚀 ¡ACCESO AUTORIZADO! Sistema NCF activado', 'success');
-                
-                // Auto-configurar para demo
-                setTimeout(() => {
-                    configuracionDemo();
-                }, 500);
+                autoLogin();
             } else {
                 mostrarAlerta('❌ CREDENCIALES INCORRECTAS', 'error');
-                mostrarAlerta('💡 Intenta: admin / nvision2530', 'success');
-                document.getElementById('password').value = '';
-                
-                // Llenar automáticamente para debug
-                setTimeout(() => {
-                    document.getElementById('username').value = 'admin';
-                    document.getElementById('password').value = 'nvision2530';
-                    mostrarAlerta('✅ Credenciales auto-llenadas - Prueba de nuevo', 'success');
-                }, 1500);
+                mostrarAlerta('💡 Usa el botón "Login Automático" en móvil', 'success');
             }
         }
 
