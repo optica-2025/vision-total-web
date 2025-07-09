@@ -540,28 +540,38 @@
         let ultimaFactura = null;
 
         function iniciarSesion() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             
-            // Credenciales correctas
-            if (username === 'admin' && password === 'nvision2530') {
+            // DEBUG - Mostrar lo que se está comparando
+            console.log('Username ingresado:', '"' + username + '"');
+            console.log('Password ingresado:', '"' + password + '"');
+            console.log('Username esperado:', '"admin"');
+            console.log('Password esperado:', '"nvision2530"');
+            
+            // Credenciales correctas (sin trim para evitar problemas)
+            if (username == 'admin' && password == 'nvision2530') {
                 isLoggedIn = true;
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('ncfSystem').classList.remove('hidden');
                 document.getElementById('logoutBtn').style.display = 'block';
-                mostrarAlerta('🚀 Acceso autorizado correctamente', 'success');
+                mostrarAlerta('🚀 ¡ACCESO AUTORIZADO! Sistema NCF activado', 'success');
                 
                 // Auto-configurar para demo
                 setTimeout(() => {
                     configuracionDemo();
-                }, 1000);
+                }, 500);
             } else {
-                mostrarAlerta('❌ Usuario o contraseña incorrectos', 'error');
+                mostrarAlerta('❌ CREDENCIALES INCORRECTAS', 'error');
+                mostrarAlerta('💡 Intenta: admin / nvision2530', 'success');
                 document.getElementById('password').value = '';
-                // Mostrar las credenciales correctas
+                
+                // Llenar automáticamente para debug
                 setTimeout(() => {
-                    mostrarAlerta('💡 Usuario: admin | Contraseña: nvision2530', 'success');
-                }, 2000);
+                    document.getElementById('username').value = 'admin';
+                    document.getElementById('password').value = 'nvision2530';
+                    mostrarAlerta('✅ Credenciales auto-llenadas - Prueba de nuevo', 'success');
+                }, 1500);
             }
         }
 
