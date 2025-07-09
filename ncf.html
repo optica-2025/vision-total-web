@@ -288,16 +288,6 @@
         }
 
         .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(239, 68, 68, 0.8);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
             display: none;
         }
 
@@ -354,20 +344,16 @@
             margin-top: 15px;
         }
 
-        .hidden { display: none; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <button class="logout-btn" id="logoutBtn" onclick="cerrarSesion()">
-        🚪 Cerrar Sesión
-    </button>
-
     <div class="container">
-        <!-- SISTEMA NCF PRINCIPAL - SIN LOGIN -->
+        <!-- SISTEMA NCF DIRECTO - SIN LOGIN -->
         <div id="ncfSystem">
             <div class="header">
                 <h1>🧾 Sistema NCF Óptica Nvision</h1>
-                <p>Comprobantes fiscales digitales - Acceso directo</p>
+                <p>Comprobantes fiscales digitales</p>
             </div>
 
             <div id="alertContainer"></div>
@@ -525,10 +511,12 @@
         let facturas = [];
         let ultimaFactura = null;
 
-        // Auto-configurar al cargar
+        // Auto-configurar al cargar - SIN LOGIN
         window.addEventListener('DOMContentLoaded', function() {
-            configuracionDemo();
-            mostrarAlerta('✅ Sistema NCF cargado - Acceso libre total', 'success');
+            setTimeout(() => {
+                configuracionDemo();
+                mostrarAlerta('✅ Sistema NCF listo para usar', 'success');
+            }, 500);
         });
 
         function autoLogin() {
