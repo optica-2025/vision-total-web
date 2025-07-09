@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo - Óptica Visión Total</title>
+    <title>Catálogo - Óptica Nvision</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -13,7 +13,7 @@
             color: white; 
             padding: 20px;
         }
-        .container { max-width: 400px; margin: 0 auto; }
+        .container { max-width: 600px; margin: 0 auto; }
         
         .header { 
             background: rgba(255, 255, 255, 0.1); 
@@ -35,43 +35,90 @@
             background-clip: text;
         }
 
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
         .catalog-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
             margin-bottom: 20px;
         }
 
         .catalog-item {
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
+            border-radius: 20px;
+            overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .catalog-item:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            transform: translateY(-5px);
         }
 
-        .item-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+        .item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .item-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 5px;
+        .item-content {
+            padding: 20px;
         }
 
-        .item-price {
+        .item-code {
             font-size: 12px;
             color: #10b981;
             font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            font-size: 18px;
+            color: #22d3ee;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .item-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(45deg, #25d366, #128c7e);
+            color: white;
+        }
+
+        .btn-info {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
         }
 
         .back-btn {
@@ -86,6 +133,49 @@
             width: 100%;
             margin-top: 20px;
         }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            right: 25px;
+            font-size: 10px;
+            font-weight: 600;
+            opacity: 0.6;
+            z-index: 999;
+            background: linear-gradient(45deg, #8B4513, #DAA520);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .default-products {
+            margin-top: 30px;
+        }
+
+        .section-divider {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            background: rgba(245, 158, 11, 0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -95,55 +185,198 @@
             <p>Encuentra tu estilo perfecto</p>
         </div>
 
-        <div class="catalog-grid">
-            <div class="catalog-item" onclick="contactarWhatsApp('Ray-Ban Aviator')">
-                <div class="item-icon">🕶️</div>
-                <div class="item-title">Ray-Ban Aviator</div>
-                <div class="item-price">RD$ 8,500</div>
+        <div class="stats-bar" id="statsBar">
+            📊 Cargando catálogo...
+        </div>
+
+        <!-- PRODUCTOS GUARDADOS EN ADMIN -->
+        <div id="productosGuardados"></div>
+
+        <!-- SEPARADOR -->
+        <div class="section-divider">
+            ⭐ PRODUCTOS DESTACADOS
+        </div>
+
+        <!-- PRODUCTOS POR DEFECTO -->
+        <div class="catalog-grid default-products">
+            <div class="catalog-item">
+                <div class="item-image" style="background: linear-gradient(45deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 48px;">🕶️</div>
+                <div class="item-content">
+                    <div class="item-code">RAY-001</div>
+                    <div class="item-title">Ray-Ban Aviator</div>
+                    <div class="item-price">RD$ 8,500</div>
+                    <div class="item-actions">
+                        <button class="action-btn btn-whatsapp" onclick="contactarWhatsApp('Ray-Ban Aviator', 'RD$ 8,500')">📱 Consultar</button>
+                        <button class="action-btn btn-info" onclick="verDetalles('Ray-Ban Aviator')">ℹ️ Detalles</button>
+                    </div>
+                </div>
             </div>
             
-            <div class="catalog-item" onclick="contactarWhatsApp('Oakley Sport')">
-                <div class="item-icon">🏃‍♂️</div>
-                <div class="item-title">Oakley Sport</div>
-                <div class="item-price">RD$ 12,000</div>
+            <div class="catalog-item">
+                <div class="item-image" style="background: linear-gradient(45deg, #f093fb, #f5576c); display: flex; align-items: center; justify-content: center; font-size: 48px;">🏃‍♂️</div>
+                <div class="item-content">
+                    <div class="item-code">OAK-001</div>
+                    <div class="item-title">Oakley Sport</div>
+                    <div class="item-price">RD$ 12,000</div>
+                    <div class="item-actions">
+                        <button class="action-btn btn-whatsapp" onclick="contactarWhatsApp('Oakley Sport', 'RD$ 12,000')">📱 Consultar</button>
+                        <button class="action-btn btn-info" onclick="verDetalles('Oakley Sport')">ℹ️ Detalles</button>
+                    </div>
+                </div>
             </div>
             
-            <div class="catalog-item" onclick="contactarWhatsApp('Versace Luxury')">
-                <div class="item-icon">💎</div>
-                <div class="item-title">Versace Luxury</div>
-                <div class="item-price">RD$ 15,500</div>
+            <div class="catalog-item">
+                <div class="item-image" style="background: linear-gradient(45deg, #4facfe, #00f2fe); display: flex; align-items: center; justify-content: center; font-size: 48px;">💎</div>
+                <div class="item-content">
+                    <div class="item-code">VER-001</div>
+                    <div class="item-title">Versace Luxury</div>
+                    <div class="item-price">RD$ 15,500</div>
+                    <div class="item-actions">
+                        <button class="action-btn btn-whatsapp" onclick="contactarWhatsApp('Versace Luxury', 'RD$ 15,500')">📱 Consultar</button>
+                        <button class="action-btn btn-info" onclick="verDetalles('Versace Luxury')">ℹ️ Detalles</button>
+                    </div>
+                </div>
             </div>
             
-            <div class="catalog-item" onclick="contactarWhatsApp('Tom Ford Classic')">
-                <div class="item-icon">🎩</div>
-                <div class="item-title">Tom Ford Classic</div>
-                <div class="item-price">RD$ 18,000</div>
-            </div>
-            
-            <div class="catalog-item" onclick="contactarWhatsApp('Prada Modern')">
-                <div class="item-icon">✨</div>
-                <div class="item-title">Prada Modern</div>
-                <div class="item-price">RD$ 13,500</div>
-            </div>
-            
-            <div class="catalog-item" onclick="contactarWhatsApp('Gucci Designer')">
-                <div class="item-icon">👑</div>
-                <div class="item-title">Gucci Designer</div>
-                <div class="item-price">RD$ 16,800</div>
+            <div class="catalog-item">
+                <div class="item-image" style="background: linear-gradient(45deg, #fa709a, #fee140); display: flex; align-items: center; justify-content: center; font-size: 48px;">🎩</div>
+                <div class="item-content">
+                    <div class="item-code">TOM-001</div>
+                    <div class="item-title">Tom Ford Classic</div>
+                    <div class="item-price">RD$ 18,000</div>
+                    <div class="item-actions">
+                        <button class="action-btn btn-whatsapp" onclick="contactarWhatsApp('Tom Ford Classic', 'RD$ 18,000')">📱 Consultar</button>
+                        <button class="action-btn btn-info" onclick="verDetalles('Tom Ford Classic')">ℹ️ Detalles</button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <button class="back-btn" onclick="window.location.href='index.html'">
             🏠 Volver al Inicio
         </button>
+
+        <div class="footer">
+            by fbrugal jrubinstein consultores
+        </div>
     </div>
 
     <script>
-        function contactarWhatsApp(producto) {
-            const mensaje = `¡Hola! Me interesa el modelo ${producto} que vi en su catálogo. ¿Podrían darme más información sobre disponibilidad y opciones de graduación? 👓✨`;
-            const url = `https://wa.me/18095550123?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
+        let productosGuardados = {};
+        let contadorConsultas = parseInt(localStorage.getItem('consultasWhatsApp') || '0');
+
+        function cargarProductosGuardados() {
+            try {
+                productosGuardados = JSON.parse(localStorage.getItem('catalogoNvision') || '{}');
+                mostrarProductosGuardados();
+                actualizarEstadisticas();
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+                productosGuardados = {};
+                actualizarEstadisticas();
+            }
         }
+
+        function mostrarProductosGuardados() {
+            const container = document.getElementById('productosGuardados');
+            const productos = Object.values(productosGuardados);
+
+            if (productos.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📦</div>
+                        <h3 style="margin-bottom: 10px; color: #10b981;">Sin productos personalizados</h3>
+                        <p style="opacity: 0.8;">Los productos agregados desde el panel administrativo aparecerán aquí</p>
+                        <button onclick="window.open('admin.html', '_blank')" style="background: linear-gradient(45deg, #10b981, #059669); color: white; border: none; padding: 12px 20px; border-radius: 10px; margin-top: 15px; cursor: pointer;">
+                            ⚙️ Ir al Panel Admin
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="catalog-grid">';
+            productos.forEach(producto => {
+                html += `
+                    <div class="catalog-item">
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="item-image">
+                        <div class="item-content">
+                            <div class="item-code">${producto.codigo}</div>
+                            <div class="item-title">${producto.nombre}</div>
+                            <div class="item-price">${producto.precio}</div>
+                            <div class="item-actions">
+                                <button class="action-btn btn-whatsapp" onclick="contactarProductoGuardado('${producto.codigo}')">📱 Consultar</button>
+                                <button class="action-btn btn-info" onclick="verDetallesGuardado('${producto.codigo}')">ℹ️ Detalles</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function actualizarEstadisticas() {
+            const totalProductos = Object.keys(productosGuardados).length + 4; // +4 por los por defecto
+            const totalConsultas = contadorConsultas;
+            
+            document.getElementById('statsBar').innerHTML = 
+                `📊 ${totalProductos} productos disponibles | 📱 ${totalConsultas} consultas realizadas`;
+        }
+
+        function contactarWhatsApp(producto, precio) {
+            contadorConsultas++;
+            localStorage.setItem('consultasWhatsApp', contadorConsultas.toString());
+            
+            const mensaje = `¡Hola! Me interesa el modelo ${producto} (${precio}) que vi en el catálogo de Óptica Nvision. ¿Podrían darme más información sobre disponibilidad y opciones de graduación? 👓✨`;
+            const url = `https://wa.me/18497972424?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+            
+            actualizarEstadisticas();
+        }
+
+        function contactarProductoGuardado(codigo) {
+            const producto = productosGuardados[codigo];
+            if (!producto) return;
+            
+            contadorConsultas++;
+            localStorage.setItem('consultasWhatsApp', contadorConsultas.toString());
+            
+            const mensaje = `¡Hola! Me interesa la montura ${producto.nombre} (${producto.precio}) código ${producto.codigo} que vi en su catálogo. ¿Podrían darme más información sobre disponibilidad y opciones de graduación? 👓✨`;
+            const url = `https://wa.me/18497972424?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+            
+            actualizarEstadisticas();
+        }
+
+        function verDetalles(producto) {
+            alert(`📋 Detalles de ${producto}\n\n✅ Disponible en tienda\n🔍 Incluye examen de vista\n📏 Graduación personalizada\n🚚 Entrega a domicilio\n\n📞 849-797-2424`);
+        }
+
+        function verDetallesGuardado(codigo) {
+            const producto = productosGuardados[codigo];
+            if (!producto) return;
+            
+            const detalles = `📋 ${producto.nombre}\n\n🔢 Código: ${producto.codigo}\n💰 Precio: ${producto.precio}\n📂 Categoría: ${producto.categoria}\n\n📝 ${producto.comentarios || 'Sin comentarios adicionales'}\n\n📞 849-797-2424`;
+            alert(detalles);
+        }
+
+        // Inicializar al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            cargarProductosGuardados();
+            console.log('✅ Catálogo dinámico cargado - productos del admin incluidos');
+        });
+
+        // Recargar productos cada 5 segundos por si se agregan nuevos
+        setInterval(() => {
+            const productosActuales = JSON.stringify(productosGuardados);
+            cargarProductosGuardados();
+            const productosNuevos = JSON.stringify(productosGuardados);
+            
+            if (productosActuales !== productosNuevos) {
+                console.log('🔄 Catálogo actualizado con nuevos productos');
+            }
+        }, 5000);
     </script>
 </body>
 </html>
