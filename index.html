@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Óptica Visión Total</title>
+    <title>Óptica Nvision</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -107,6 +107,14 @@
             background: linear-gradient(45deg, #f59e0b, #dc2626);
         }
 
+        .btn-test {
+            background: linear-gradient(45deg, #06b6d4, #0891b2);
+        }
+
+        .btn-ncf {
+            background: linear-gradient(45deg, #6366f1, #4f46e5);
+        }
+
         .notification {
             position: fixed;
             top: 20px;
@@ -166,10 +174,10 @@
     <div class="container">
         <div class="header">
             <div class="logo">👁️</div>
-            <h1 class="brand-name">Óptica Visión Total</h1>
+            <h1 class="brand-name">Óptica Nvision</h1>
             <p class="tagline">Cuidado visual completo y profesional</p>
             <div class="contact-info">
-                <div class="contact-item">📱 809-555-0123</div>
+                <div class="contact-item">📱 849-797-2424</div>
                 <div class="contact-item">🚚 Entregas</div>
             </div>
         </div>
@@ -182,6 +190,10 @@
             <button class="main-btn btn-news" onclick="verNoticias()">
                 📰 InfoFlash - Noticias del Día
             </button>
+
+            <button class="main-btn btn-test" onclick="hacerTest()">
+                👁️ Test de Vista Gratuito
+            </button>
             
             <button class="main-btn btn-catalog" onclick="verCatalogo()">
                 👓 Ver Catálogo de Monturas
@@ -189,6 +201,10 @@
             
             <button class="main-btn btn-pos" onclick="irAPOS()">
                 💼 Sistema de Facturación
+            </button>
+            
+            <button class="main-btn btn-ncf" onclick="irANCF()">
+                🧾 Sistema NCF Fiscal
             </button>
             
             <button class="main-btn btn-admin" onclick="irAAdmin()">
@@ -223,7 +239,7 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        const WHATSAPP = '18095550123';
+        const WHATSAPP = '18497972424';
 
         function mostrarNotificacion(mensaje) {
             const notif = document.getElementById('notification');
@@ -235,7 +251,7 @@
         }
 
         function contactarWhatsApp() {
-            const mensaje = `¡Hola! Vengo desde la página web de Óptica Visión Total. Me interesa conocer más sobre sus servicios ópticos y monturas disponibles. ¿Podrían ayudarme? 👁️✨`;
+            const mensaje = `¡Hola! Vengo desde la página web de Óptica Nvision. Me interesa conocer más sobre sus servicios ópticos y monturas disponibles. ¿Podrían ayudarme? 👁️✨`;
             const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
             mostrarNotificacion('📱 Abriendo WhatsApp...');
@@ -243,28 +259,35 @@
 
         function verNoticias() {
             mostrarNotificacion('📰 Abriendo InfoFlash...');
-            window.open('info-total.html', '_blank');
+            window.open('info-nvision.html', '_blank');
+        }
+
+        function hacerTest() {
+            mostrarNotificacion('👁️ Abriendo Test de Vista...');
+            window.open('test-visual.html', '_blank');
         }
 
         function verCatalogo() {
-            mostrarNotificacion('👓 Cargando catálogo de monturas...');
+            mostrarNotificacion('👓 Abriendo catálogo...');
+            window.open('catalogo.html', '_blank');
         }
 
         function irAPOS() {
-            mostrarNotificacion('💼 Abriendo sistema de facturación...');
-            setTimeout(() => {
-                window.location.href = 'pos.html';
-            }, 1000);
+            mostrarNotificacion('💼 Abriendo sistema POS...');
+            window.open('pos.html', '_blank');
+        }
+
+        function irANCF() {
+            mostrarNotificacion('🧾 Abriendo sistema NCF...');
+            window.open('ncf.html', '_blank');
         }
 
         function irAAdmin() {
             mostrarNotificacion('⚙️ Abriendo panel administrativo...');
-            setTimeout(() => {
-                window.location.href = 'admin.html';
-            }, 1000);
+            window.open('admin.html', '_blank');
         }
 
-        console.log('✅ Óptica Visión Total cargada correctamente');
+        console.log('✅ Óptica Nvision cargada correctamente');
     </script>
 </body>
 </html>
