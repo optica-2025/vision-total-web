@@ -168,6 +168,89 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        .contact-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #134e4a 0%, #7c2d12 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .contact-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .contact-textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .contact-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-send {
+            background: linear-gradient(45deg, #25d366, #128c7e);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -183,7 +266,7 @@
         </div>
 
         <div class="main-buttons">
-            <button class="main-btn btn-whatsapp" onclick="contactarWhatsApp()">
+            <button class="main-btn btn-whatsapp" onclick="abrirContacto()">
                 📱 Contactar por WhatsApp
             </button>
             
@@ -236,11 +319,29 @@
         </div>
     </div>
 
+    <!-- MODAL DE CONTACTO -->
+    <div id="contactModal" class="contact-modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 20px; color: #10b981;">📱 Contactar Cliente</h3>
+            <input type="text" id="clienteNombre" class="contact-input" placeholder="👤 Nombre del cliente">
+            <input type="tel" id="clienteTelefono" class="contact-input" placeholder="📱 Teléfono del cliente (opcional)">
+            <textarea id="clienteMensaje" class="contact-textarea" placeholder="💬 Mensaje personalizado...">Hola! Soy de Óptica Nvision. Me interesa contactarte sobre nuestros servicios ópticos y monturas disponibles. ¿Podrías confirmar tu interés? 
+
+👁️ Óptica Nvision
+📱 849-797-2424
+🌐 opticanvision.com
+✨ Vea mejor, viva mejor</textarea>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn btn-send" onclick="enviarMensaje()">📱 Enviar WhatsApp</button>
+                <button class="modal-btn btn-cancel" onclick="cerrarContacto()">❌ Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <div id="notification" class="notification"></div>
 
     <script>
-        const WHATSAPP = '18497972424';
-
         function mostrarNotificacion(mensaje) {
             const notif = document.getElementById('notification');
             notif.textContent = mensaje;
@@ -250,11 +351,44 @@
             }, 3000);
         }
 
-        function contactarWhatsApp() {
-            const mensaje = `¡Hola! Vengo desde la página web de Óptica Nvision. Me interesa conocer más sobre sus servicios ópticos y monturas disponibles. ¿Podrían ayudarme? 👁️✨`;
-            const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+        function abrirContacto() {
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+
+        function cerrarContacto() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        function enviarMensaje() {
+            const nombre = document.getElementById('clienteNombre').value.trim();
+            const telefono = document.getElementById('clienteTelefono').value.trim();
+            const mensaje = document.getElementById('clienteMensaje').value.trim();
+            
+            if (!nombre || !mensaje) {
+                alert('⚠️ Complete nombre y mensaje');
+                return;
+            }
+            
+            // Número de la óptica donde llegan los mensajes
+            const numeroOptica = '18497972424';
+            
+            let textoFinal = `📱 *CONTACTO DESDE WEB - ÓPTICA NVISION*\n\n`;
+            textoFinal += `👤 Cliente: ${nombre}\n`;
+            if (telefono) {
+                textoFinal += `📞 Teléfono: ${telefono}\n`;
+            }
+            textoFinal += `\n💬 Mensaje:\n${mensaje}`;
+            
+            const url = `https://wa.me/${numeroOptica}?text=${encodeURIComponent(textoFinal)}`;
             window.open(url, '_blank');
-            mostrarNotificacion('📱 Abriendo WhatsApp...');
+            
+            cerrarContacto();
+            mostrarNotificacion('📱 Mensaje enviado a Óptica Nvision');
+            
+            // Limpiar formulario
+            document.getElementById('clienteNombre').value = '';
+            document.getElementById('clienteTelefono').value = '';
+            document.getElementById('clienteMensaje').value = 'Hola! Soy de Óptica Nvision. Me interesa contactarte sobre nuestros servicios ópticos y monturas disponibles. ¿Podrías confirmar tu interés? \n\n👁️ Óptica Nvision\n📱 849-797-2424\n🌐 opticanvision.com\n✨ Vea mejor, viva mejor';
         }
 
         function verNoticias() {
@@ -287,7 +421,7 @@
             window.open('admin.html', '_blank');
         }
 
-        console.log('✅ Óptica Nvision cargada correctamente');
+        console.log('✅ Óptica Nvision - WhatsApp corregido para uso de la óptica');
     </script>
 </body>
 </html>
