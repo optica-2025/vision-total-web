@@ -363,31 +363,11 @@
     </button>
 
     <div class="container">
-        <!-- PANTALLA DE LOGIN -->
-        <div id="loginScreen">
-            <div class="header">
-                <h1>🔒 Sistema NCF Seguro</h1>
-                <p>Óptica Nvision - Acceso Autorizado</p>
-            </div>
-
-            <div class="login-section">
-                <div class="login-title">🔐 Sistema NCF - Óptica Nvision</div>
-                <input type="text" id="username" class="login-input" placeholder="👤 Usuario" value="">
-                <input type="password" id="password" class="login-input" placeholder="🔑 Contraseña" value="">
-                <button onclick="iniciarSesion()" class="login-btn">🚀 ENTRAR AL SISTEMA</button>
-                
-                <div style="margin-top: 20px; font-size: 12px; opacity: 0.8;">
-                    💻 <strong>PC:</strong> admin / nvision2530<br>
-                    📱 <strong>Móvil:</strong> Acceso automático (cualquier texto)
-                </div>
-            </div>
-        </div>
-
-        <!-- SISTEMA NCF PRINCIPAL -->
-        <div id="ncfSystem" class="hidden">
+        <!-- SISTEMA NCF PRINCIPAL - SIN LOGIN -->
+        <div id="ncfSystem">
             <div class="header">
                 <h1>🧾 Sistema NCF Óptica Nvision</h1>
-                <p>Comprobantes fiscales digitales</p>
+                <p>Comprobantes fiscales digitales - Acceso directo</p>
             </div>
 
             <div id="alertContainer"></div>
@@ -543,8 +523,13 @@
         };
         
         let facturas = [];
-        let isLoggedIn = false;
         let ultimaFactura = null;
+
+        // Auto-configurar al cargar
+        window.addEventListener('DOMContentLoaded', function() {
+            configuracionDemo();
+            mostrarAlerta('✅ Sistema NCF cargado - Acceso libre total', 'success');
+        });
 
         function autoLogin() {
             // Login directo para móvil
@@ -962,14 +947,12 @@
 
         // Event listeners
         document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !isLoggedIn) {
-                iniciarSesion();
-            }
+            // Sin login, no necesitamos esto
         });
 
         // Inicialización
-        console.log('🔒 Sistema NCF Óptica Nvision cargado correctamente');
-        console.log('💡 Credenciales: admin / nvision2530');
+        console.log('🔒 Sistema NCF Óptica Nvision - ACCESO LIBRE');
+        console.log('✅ Sin login requerido - Funciona en PC y móvil');
     </script>
 </body>
 </html>
