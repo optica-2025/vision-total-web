@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Óptica Visión Total</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            background: linear-gradient(135deg, #134e4a 0%, #7c2d12 100%); 
+            min-height: 100vh; 
+            color: white; 
+            padding: 20px;
+        }
+        .container { max-width: 400px; margin: 0 auto; }
+        
+        .header { 
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px);
+            border-radius: 20px; 
+            padding: 30px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .brand-name { 
+            font-size: 24px; 
+            font-weight: 800; 
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .admin-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .admin-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="brand-name">⚙️ Panel Administrativo</h1>
+            <p>Gestión y configuración</p>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-card" onclick="window.open('info-total.html', '_blank')">
+                <div class="card-icon">📰</div>
+                <div class="card-title">Gestionar InfoFlash</div>
+                <div class="card-desc">Administrar sistema de noticias</div>
+            </div>
+            
+            <div class="admin-card" onclick="alert('📊 Módulo en desarrollo')">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Reportes de Ventas</div>
+                <div class="card-desc">Estadísticas y análisis</div>
+            </div>
+            
+            <div class="admin-card" onclick="alert('👥 Módulo en desarrollo')">
+                <div class="card-icon">👥</div>
+                <div class="card-title">Gestión de Clientes</div>
+                <div class="card-desc">Base de datos de clientes</div>
+            </div>
+            
+            <div class="admin-card" onclick="alert('📦 Módulo en desarrollo')">
+                <div class="card-icon">📦</div>
+                <div class="card-title">Inventario</div>
+                <div class="card-desc">Control de stock y productos</div>
+            </div>
+            
+            <div class="admin-card" onclick="alert('⚙️ Módulo en desarrollo')">
+                <div class="card-icon">⚙️</div>
+                <div class="card-title">Configuración</div>
+                <div class="card-desc">Ajustes del sistema</div>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='index.html'">
+            🏠 Volver al Inicio
+        </button>
+    </div>
+</body>
+</html>
