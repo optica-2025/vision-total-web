@@ -372,13 +372,13 @@
 
             <div class="login-section">
                 <div class="login-title">🔐 Sistema NCF - Óptica Nvision</div>
-                <input type="text" id="username" class="login-input" placeholder="👤 Cualquier texto" value="admin">
-                <input type="password" id="password" class="login-input" placeholder="🔑 Cualquier texto" value="nvision2530">
-                <button onclick="iniciarSesion()" class="login-btn">🚀 ENTRAR (SIN VALIDACIÓN)</button>
+                <input type="text" id="username" class="login-input" placeholder="👤 Usuario" value="">
+                <input type="password" id="password" class="login-input" placeholder="🔑 Contraseña" value="">
+                <button onclick="iniciarSesion()" class="login-btn">🚀 ENTRAR AL SISTEMA</button>
                 
-                <div style="margin-top: 20px; font-size: 14px; color: #10b981; text-align: center;">
-                    ✅ ACCESO LIBRE - Solo click "ENTRAR"<br>
-                    📱 Funciona en PC y móvil
+                <div style="margin-top: 20px; font-size: 12px; opacity: 0.8;">
+                    💻 <strong>PC:</strong> admin / nvision2530<br>
+                    📱 <strong>Móvil:</strong> Acceso automático (cualquier texto)
                 </div>
             </div>
         </div>
@@ -559,17 +559,43 @@
             }, 500);
         }
 
+        function detectarMovil() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
         function iniciarSesion() {
-            // ACCESO DIRECTO SIN VALIDACIÓN
-            isLoggedIn = true;
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('ncfSystem').classList.remove('hidden');
-            document.getElementById('logoutBtn').style.display = 'block';
-            mostrarAlerta('🚀 ¡ACCESO AUTORIZADO! Sistema NCF activado', 'success');
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             
-            setTimeout(() => {
-                configuracionDemo();
-            }, 500);
+            // PARA MÓVIL - ACCESO DIRECTO
+            if (detectarMovil()) {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('ncfSystem').classList.remove('hidden');
+                document.getElementById('logoutBtn').style.display = 'block';
+                mostrarAlerta('📱 Acceso móvil autorizado automáticamente', 'success');
+                
+                setTimeout(() => {
+                    configuracionDemo();
+                }, 500);
+                return;
+            }
+            
+            // PARA PC - VALIDACIÓN NORMAL
+            if (username == 'admin' && password == 'nvision2530') {
+                isLoggedIn = true;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('ncfSystem').classList.remove('hidden');
+                document.getElementById('logoutBtn').style.display = 'block';
+                mostrarAlerta('💻 Acceso PC autorizado correctamente', 'success');
+                
+                setTimeout(() => {
+                    configuracionDemo();
+                }, 500);
+            } else {
+                mostrarAlerta('❌ Credenciales incorrectas en PC', 'error');
+                mostrarAlerta('💡 PC: admin / nvision2530', 'success');
+            }
         }
 
         function cerrarSesion() {
