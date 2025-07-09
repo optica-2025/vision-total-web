@@ -371,18 +371,14 @@
             </div>
 
             <div class="login-section">
-                <div class="login-title">🔐 Acceso Restringido</div>
-                <input type="text" id="username" class="login-input" placeholder="👤 Usuario" value="" autocomplete="off" autocorrect="off" autocapitalize="off">
-                <input type="password" id="password" class="login-input" placeholder="🔑 Contraseña" value="" autocomplete="off" autocorrect="off" autocapitalize="off">
-                <button onclick="iniciarSesion()" class="login-btn">🚀 Acceder al Sistema</button>
+                <div class="login-title">🔐 Sistema NCF - Óptica Nvision</div>
+                <input type="text" id="username" class="login-input" placeholder="👤 Cualquier texto" value="admin">
+                <input type="password" id="password" class="login-input" placeholder="🔑 Cualquier texto" value="nvision2530">
+                <button onclick="iniciarSesion()" class="login-btn">🚀 ENTRAR (SIN VALIDACIÓN)</button>
                 
-                <button onclick="autoLogin()" style="background: #f59e0b; color: white; border: none; padding: 15px 20px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 15px;">
-                    📱 Login Automático (Móvil)
-                </button>
-                
-                <div style="margin-top: 20px; font-size: 12px; opacity: 0.8;">
-                    🔒 Sistema protegido con autenticación<br>
-                    💎 Usuario: admin | Contraseña: nvision2530
+                <div style="margin-top: 20px; font-size: 14px; color: #10b981; text-align: center;">
+                    ✅ ACCESO LIBRE - Solo click "ENTRAR"<br>
+                    📱 Funciona en PC y móvil
                 </div>
             </div>
         </div>
@@ -564,16 +560,16 @@
         }
 
         function iniciarSesion() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            // ACCESO DIRECTO SIN VALIDACIÓN
+            isLoggedIn = true;
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('ncfSystem').classList.remove('hidden');
+            document.getElementById('logoutBtn').style.display = 'block';
+            mostrarAlerta('🚀 ¡ACCESO AUTORIZADO! Sistema NCF activado', 'success');
             
-            // Credenciales correctas (sin trim para móvil)
-            if (username == 'admin' && password == 'nvision2530') {
-                autoLogin();
-            } else {
-                mostrarAlerta('❌ CREDENCIALES INCORRECTAS', 'error');
-                mostrarAlerta('💡 Usa el botón "Login Automático" en móvil', 'success');
-            }
+            setTimeout(() => {
+                configuracionDemo();
+            }, 500);
         }
 
         function cerrarSesion() {
